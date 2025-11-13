@@ -6,7 +6,10 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  credentials: true
+}));
 app.use(express.json());
 
 const uri = process.env.MONGODB_URI;
@@ -101,6 +104,9 @@ async function run() {
     });
 
     console.log("Connected to MongoDB!");
+    console.log("Database:", db.databaseName);
+    const count = await reviewsCollection.countDocuments();
+    console.log("Total reviews:", count);
   } catch (error) {
     console.error(error);
   }
